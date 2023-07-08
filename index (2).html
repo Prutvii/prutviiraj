@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Input and Search</title>
+    <style>
+        body {
+            background-color: Green;
+        }
+
+        /* Styling for input forms */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+            margin-bottom: 10px;
+            background-color: White;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 200px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: Red;
+        }
+
+        input[type="submit"] {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* Styling for search results */
+        #searchResults p {
+            margin-bottom: 5px;
+        }
+
+        /* Additional styling */
+        h2 {
+            margin-top: 30px;
+        }
+
+        .filter {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Array to store the data
+            var data = [];
+
+            // Submit form data
+            $('#dataForm').submit(function(event) {
+                event.preventDefault();
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var city = $('#city').val();
+                var state = $('#state').val();
+                var idNumber = $('#idNumber').val();
+                var category = $('#category').val();
+                var socialMedia = $('#socialMedia').val();
+                var entry = {
+                    name: name,
+                    email: email,
+                    city: city,
+                    state: state,
+                    idNumber: idNumber,
+                    category: category,
+                    socialMedia: socialMedia
+                };
+                data.push(entry);
+
+                // Clear input fields
+                $('#name').val('');
+                $('#email').val('');
+                $('#city').val('');
+                $('#state').val('');
+                $('#idNumber').val('');
+                $('#category').val('');
+                $('#socialMedia').val('');
+
+                console.log('Data stored:', data);
+            });
+
+            // Search data
+            $('#searchForm').submit(function(event) {
+                event.preventDefault();
+                var searchTerm = $('#searchTerm').val();
+                var searchResults = [];
+
+                // Clear search results
+                $('#searchResults').empty();
+
+                // Search data
+                for (var i = 0; i < data.length; i++) {
+                    var entry = data[i];
+                    if (entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        entry.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        entry.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        entry.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        entry.idNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        entry.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        entry.socialMedia.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        searchResults.push(entry);
+                    }
+                }
+
+                displaySearchResults(searchResults);
+            });
+
+            // Display search results on the page
+            function displaySearchResults(results) {
+                var searchResultsDiv = $('#searchResults');
+                searchResultsDiv.empty();
+
+                if (results.length === 0) {
+                    searchResultsDiv.append('<p>No results found.</p>');
+                } else {
+                    for (var i = 0; i < results.length; i++) {
+                        var result = results[i];
+                        searchResultsDiv.append('<p>Name: ' + result.name +
+                            ', Email: ' + result.email +
+                            ', City: ' + result.city +
+                            ', State: ' + result.state +
+                            ', ID Number: ' + result.idNumber +
+                            ', Category: ' + result.category +
+                            ', Social Media: ' + result.socialMedia +
+                            '</p>');
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1 style="color: Black;">PRUTVI'S MODULE</h1>
+
+    <h2 style="color: Orange;">ENTER YOUR DATA:-</h2>
+    <form id="dataForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <br>
+        <label for="city">City:</label>
+        <input type="text" id="city" required>
+        <br>
+        <label for="state">State:</label>
+        <input type="text" id="state" required>
+        <br>
+        <label for="idNumber">ID Number:</label>
+        <input type="text" id="idNumber" required>
+        <br>
+        <label for="category">Category:</label>
+        <input type="text" id="category" required>
+        <br>
+        <label for="socialMedia">Social Media:</label>
+        <input type="text" id="socialMedia" required>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2 style="color: Orange">SEARCH YOUR DATA:-</h2>
+    <form id="searchForm">
+        <label for="searchTerm">Search Term:</label>
+        <input type="text" id="searchTerm" required>
+        <br>
+        <input type="submit" value="Search">
+    </form>
+
+    <h2 style="color: Orange">THE RESULTS:-</h2>
+    <div id="searchResults"></div>
+</body>
+</html>
